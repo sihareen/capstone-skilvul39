@@ -5,17 +5,11 @@
 
 Smart Lemon Insight adalah sebuah sistem kecerdasan buatan yang dirancang untuk menentukan kualitas buah lemon secara otomatis dan presisi. Sistem ini menggunakan teknologi deep learning dengan memanfaatkan Keras dari TensorFlow dan algoritma YOLO (You Only Look Once) untuk melatih model deteksi objek. Dengan KerasCV, Smart Lemon Insight dapat memanfaatkan model YOLOv8 yang telah dilatih sebelumnya untuk mendeteksi dan mengklasifikasikan lemon berdasarkan parameter seperti warna, ukuran, dan ada tidaknya cacat. Proses ini melibatkan pengolahan citra digital yang mencakup augmentasi data, konversi ruang warna, dan ekstraksi fitur. Dengan metode ini, Smart Lemon Insight mampu memberikan penilaian kualitas lemon secara real-time dengan akurasi tinggi, sehingga membantu petani dan produsen lemon dalam memastikan kualitas produk mereka tetap konsisten dan optimal
 
-## Demo App
-
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ml-model-builder-template.streamlit.app/)
-
 ## Section Heading
 
 This is filler text, please replace this with text for this section.
 
-## Further Reading
-
-This is filler text, please replace this with a explanatory text about further relevant resources for this repo
-- Resource 1
+## Developer
+- Muhammad Rizkan Harin Faza| https://web-porto-ut7i-9noquv9vm-sihareens-projects.vercel.app/
 - Resource 2
 - Resource 3
