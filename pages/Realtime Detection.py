@@ -1,37 +1,39 @@
 import streamlit as st
-import cv2
+from ultralytics import YOLO
+from PIL import Image
 import numpy as np
 
-def load_image(image_path):
-    frame = cv2.imread(image_path)
-    if frame is None:
-        st.error(f"Image not found or failed to load at {image_path}")
-        return None
-    return frame
+# Load YOLOv8 model
+model = YOLO("models/bestv8.pt")  # Use a pre-trained model from Ultralytics
+model.conf = 0.25  # Set confidence threshold
+model.iou = 0.45  # Set IoU threshold for NMS
 
-def capture_webcam():
-    cap = cv2.VideoCapture(1)  # Change the index if necessary
-    ret, frame = cap.read()
-    if not ret:
-        st.error("Failed to capture image from webcam")
-        return None
-    return frame
+# Streamlit app
+st.title("YOLOv8 Object Detection")
+st.write("Upload an image to detect objects")
 
-st.title("Image Processing with OpenCV")
+# Upload image
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
-option = st.selectbox("Choose input source", ("Image File", "Webcam"))
+if uploaded_file is not None:
+    image = Image.open(uploaded_file)
+    st.image(image, caption='Uploaded Image.', use_column_width=True)
+    st.write("")
+    st.write("Detecting objects...")
 
-if option == "Image File":
-    image_path = st.text_input("Enter the path to the image file")
-    if st.button("Load Image"):
-        frame = load_image(image_path)
-        if frame is not None:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            st.image(frame, caption="Loaded Image", use_column_width=True)
+    # Perform object detection
+    results = model(image)
 
-elif option == "Webcam":
-    if st.button("Capture Image"):
-        frame = capture_webcam()
-        if frame is not None:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            st.image(frame, caption="Captured Image", use_column_width=True)
+    # Process each result in the list
+    for result in results:
+        # Convert the bounding boxes to a pandas DataFrame
+        boxes = result.boxes
+        if boxes is not None:
+            df = boxes.xyxy.cpu().numpy()  # Convert to numpy array
+            st.write("Detection Results:", df)  # Display the detection results
+
+        # Plot results
+        annotated_image = result.plot()  # Generate image with bounding boxes and labels
+
+        # Display results
+        st.image(annotated_image, caption='Detected Image.', use_column_width=True)
