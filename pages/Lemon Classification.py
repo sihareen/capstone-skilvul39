@@ -1,13 +1,11 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import streamlit as st
-from roboflow import Roboflow
-import tensorflow as tf
 import cv2
+import numpy as np
+import tensorflow as tf
+from PIL import Image
 
 # Memuat model yang telah dilatih
-st.cache_resource.clear()
+@st.cache_data
 def load_model():
     model_path = "models/best_model_at_epoch_13.keras"
     model = tf.keras.models.load_model(model_path)
@@ -29,27 +27,55 @@ def predict(image, model):
     
     return predicted_class[0], confidence[0]
 
+# Fungsi untuk menjalankan deteksi secara real-time menggunakan webcam
+def detect_with_webcam():
+    cap = cv2.VideoCapture(0)
+    stframe = st.empty()
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            st.write("Could not open webcam.")
+            break
+
+        # Melakukan prediksi pada frame saat ini
+        predicted_class, confidence = predict(frame, model)
+        
+        # Menampilkan prediksi pada frame
+        class_names = ["Lemon with bad quality", "Lemon not detected", "Lemon with good quality"]
+        label = f'{class_names[predicted_class]} ({confidence:.2f})'
+        cv2.putText(frame, label, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+        
+        # Menampilkan frame pada Streamlit
+        stframe.image(frame, channels="BGR", use_column_width=True)
+
+    cap.release()
+
 # Streamlit app
 st.title("Lemon Quality Classification with TensorFlow")
-st.write("Using a trained CNN model")
+st.write("Using a pre-trained CNN model")
 
-# File uploader for image upload
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+# Pilihan untuk mengunggah gambar atau menggunakan webcam
+option = st.selectbox("Choose input method", ("Upload Image", "Use Webcam"))
 
-if uploaded_file is not None:
-    # Convert the file to an OpenCV image
-    file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-    image = cv2.imdecode(file_bytes, 1)
+if option == "Upload Image":
+    # File uploader for image upload
+    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
-    # Make predictions
-    predicted_class, confidence = predict(image, model)
-    
-    # Display the uploaded image
-    st.image(image, channels="BGR", caption="Uploaded Image")
-    
-    # Display the prediction
-    class_names = ["Lemon with bad quality", "Lemon not detected", "Lemon with good quality"]
-    st.write(f'Prediction: {class_names[predicted_class]}')
-    st.write(f'Confidence: {confidence:.2f}')
-    st.write("Mahluk paling ganteng seluruh semesta : Rizkan Harin")
+    if uploaded_file is not None:
+        # Convert the file to an OpenCV image
+        file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+        image = cv2.imdecode(file_bytes, 1)
 
+        # Make predictions
+        predicted_class, confidence = predict(image, model)
+        
+        # Display the uploaded image
+        st.image(image, channels="BGR", caption="Uploaded Image")
+        
+        # Display the prediction
+        class_names = ["Lemon with good quality", "Lemon not detected", "Lemon with bad quality"]
+        st.write(f'Prediction: {class_names[predicted_class]}')
+        st.write(f'Confidence: {confidence:.2f}')
+else:
+    detect_with_webcam()

@@ -10,6 +10,6 @@ Smart Lemon Insight adalah sebuah sistem kecerdasan buatan yang dirancang untuk 
 This is filler text, please replace this with text for this section.
 
 ## Developer
-- Muhammad Rizkan Harin Faza| https://web-porto-ut7i-9noquv9vm-sihareens-projects.vercel.app/
+- Muhammad Rizkan Harin Faza
 - Resource 2
 - Resource 3
