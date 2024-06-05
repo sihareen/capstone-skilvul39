@@ -74,7 +74,7 @@ if option == "Upload Image":
         st.image(image, channels="BGR", caption="Uploaded Image")
         
         # Display the prediction
-        class_names = ["Lemon with good quality", "Lemon not detected", "Lemon with bad quality"]
+        class_names = ["Lemon with bad quality", "Lemon not detected", "Lemon with good quality"]
         st.write(f'Prediction: {class_names[predicted_class]}')
         st.write(f'Confidence: {confidence:.2f}')
 else:

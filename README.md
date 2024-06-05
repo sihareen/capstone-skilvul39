@@ -11,5 +11,8 @@ This is filler text, please replace this with text for this section.
 
 ## Developer
 - Muhammad Rizkan Harin Faza
-- Resource 2
-- Resource 3
+- Dicky Wijaya Saputra
+- Eko Santoso
+- Nisrina Putri Fernanda Fairuz
+- Sukma Nurul Izzah
+
