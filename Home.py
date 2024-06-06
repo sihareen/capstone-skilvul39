@@ -9,6 +9,23 @@ import av
 from streamlit_webrtc import webrtc_streamer, RTCConfiguration
 import tensorflow as tf
 
+
+#pasang login page
+def login_page():
+    st.title("Login")
+    st.write("Please enter your username and password to access the app.")
+
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if st.button("Login"):
+        if username == "39" and password == "skilvul":  # Replace with your own credentials
+            st.session_state.logged_in = True
+            st.experimental_rerun()  # Force a rerun of the app
+        else:
+            st.error("Invalid username or password")
+
+
 #st.set_page_config(page_title='lemonQC', page_icon='🍋')
 # Page title
 def Home():
@@ -25,6 +42,7 @@ def Home():
         ''', language='markdown')
         st.code('''- hhttps://github.com/sihareen/capstone-skilvul39
         ''', language='markdown')
+pass
 
 def Realtime_Detection():
     model1 = YOLO("models/bestv8.pt")  # Use a pre-trained model from Ultralytics
@@ -114,6 +132,7 @@ def Realtime_Detection():
 
                 # Display the annotated frame
                 st.image(annotated_frame)
+pass
 
 def Lemon_Classification():
     @st.cache_data
@@ -190,17 +209,29 @@ def Lemon_Classification():
             st.write(f'Confidence: {confidence:.2f}')
     else:
         detect_with_webcam()
+pass
 
-page_names = ["Home","Realtime Detection", "Lemon Classification"]
-page_functions = [Home, Realtime_Detection, Lemon_Classification]
+# Create the page functions list
+def main_app():
+    page_names = ["Home", "Realtime Detection", "Lemon Classification"]
+    page_functions = [Home, Realtime_Detection, Lemon_Classification]
 
-selected_page = st.selectbox("Select a page 🍋", page_names)
-page_functions[page_names.index(selected_page)]()
+    # Create the selectbox
+    selected_page = st.selectbox("Select a page 🍋", page_names)
 
+    # Call the selected page function
+    page_functions[page_names.index(selected_page)]()
 
+# Create a session state variable to track login status
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
 
-
-
+# Show the login page if not logged in
+if not st.session_state.logged_in:
+    login_page()
+else:
+    main_app()
+# Add the developers section
 st.divider()
 st.markdown('**Developers:**')
 st.text('-Muhammad Rizkan Harin Faza')
