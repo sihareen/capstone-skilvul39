@@ -11,6 +11,7 @@
     },
     "vscode": {
       "settings": {},
+        "streamlit.sidebarNavigation": false, 
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance"
@@ -19,7 +20,7 @@
   },
   "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip3 install --user -r requiremeants.txt; pip3 install --user streamlit; sudo apt-get update && apt-get install ffmpeg libsm6 libxext6  -y;echo '✅ Packages installed and Requirements met'",
   "postAttachCommand": {
-    "server": "streamlit run Home.py --server.enableCORS false --server.enableXsrfProtection false"
+    "server": "streamlit run Home.py --server.enableCORS false --server.enableXsrfProtection false --client.showSidebarNavigation=False"
   },
   "portsAttributes": {
     "8501": {
