@@ -7,7 +7,7 @@ import av
 from streamlit_webrtc import webrtc_streamer, RTCConfiguration
 
 # Load YOLOv8 model
-model = YOLO("yolov8n.pt")  # Use a pre-trained model from Ultralytics
+model = YOLO("models/bestv8.pt")  # Use a pre-trained model from Ultralytics
 model.conf = 0.25  # Set confidence threshold
 model.iou = 0.45  # Set IoU threshold for NMS
 
