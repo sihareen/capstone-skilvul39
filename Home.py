@@ -51,7 +51,7 @@ def Realtime_Detection():
 
     # Streamlit app
     st.title('🍋x🤖 Smart Lemon Insight')
-    st.write("YOLOv8 Object Detection")
+    st.write("Lemon Quality Detection using a pre-trained YOLOv8 object detection models")
 
     # Input selection
     input_type = st.radio("Select input type", ["Image", "Webcam Realtime", "Video file"])
