@@ -13,7 +13,7 @@ import tensorflow as tf
 #pasang login page
 def login_page():
     st.title("Login")
-    st.write("**Please enter your username and password to access tahe Smart Lemon Insight app🍋**")
+    st.write("**Please enter your username and password to access the Smart Lemon Insight app🍋**")
 
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
